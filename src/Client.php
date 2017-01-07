@@ -15,7 +15,6 @@ use Jgut\Spiral\Transport\Curl;
 use Jgut\Spiral\Transport\TransportInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Stream;
 
 /**
  * PSR7 aware client.
@@ -178,9 +177,7 @@ class Client
             $response = $response->withHeader($name, (string) $value);
         }
 
-        $body = new Stream('php://temp', 'r+');
-        $body->write($content);
-
+        $body = new StringStream($content);
         return $response->withBody($body);
     }
 }
